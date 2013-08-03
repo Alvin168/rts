@@ -186,9 +186,18 @@ int main(int const argc, char const *argv[])
     char *vector_fp = NULL;
     size_t vector_fp_len;
     vclient_error_code_t err_code = VCLIENT_SUCCESS;
+    vclients_types_t vclient_type;
     int i;
 
-    err_code = vclient_log_init_log();
+    if (3 != argc)
+    {
+        err_code = VCLIENT_WRONG_NUMBER_CLI_PARAMS_ERROR;
+        goto error;
+    }
+
+    vclient_type = (vclients_types_t)atoi(argv[2]);
+
+    err_code = vclient_log_init_log(argv[2]);
     if (VCLIENT_SUCCESS != err_code)
     {
         goto error_log;
@@ -199,12 +208,6 @@ int main(int const argc, char const *argv[])
     for (i = 0; i < argc; i++)
     {
         VCLIENT_LOG_LOG("argv[%d] = %s\n", i, argv[i]);
-    }
-
-    if (3 != argc)
-    {
-        err_code = VCLIENT_WRONG_NUMBER_CLI_PARAMS_ERROR;
-        goto error;
     }
 
     vector_fp_len = strlen(argv[1]);
@@ -239,7 +242,7 @@ int main(int const argc, char const *argv[])
         VCLIENT_LOG_LOG("VClient has been successfully connected to remote GateWay server. SOCKET_FD = %d\n", socket_fd_remote);
 
         VCLIENT_LOG_LOG("Begin processing...\n");
-        err_code = begin_process(socket_fd_remote, (vclients_types_t)atoi(argv[2]));
+        err_code = begin_process(socket_fd_remote, vclient_type);
 
         vclient_socket_close_socket(socket_fd_remote);
         VCLIENT_LOG_LOG("Socket for remote connection with GateWay has just been closed. SOCKET_FD = %d\n", socket_fd_remote);

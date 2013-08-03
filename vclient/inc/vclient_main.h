@@ -8,12 +8,6 @@
 
 #define VECTOR_SIZE 7
 
-/* do not change numbers of types of clients */
-typedef enum vclients_types_e {
-    VCLIENT_b = 0x2,
-    VCLIENT_d = 0x3
-} vclients_types_t;
-
 typedef struct vector_fmt_s {
     int pos;
     int value;

@@ -7,7 +7,10 @@
 
 #define LOGING_VCLIENT_LOG_FILE 1
 #define PROJECT_ROOT_PATH_ENV_VARIABLE "RTS_PROJ_ROOT"
-#define VCLIENT_LOG_FILE_PATH "log/vclient.log"
+
+#define VCLIENT_LOG_FILE_DIRECTORY_PATH "log"
+#define VCLIENT_LOG_FILE_NAME "vclient"
+#define VCLIENT_LOG_FILE_EXTENSION "log"
 
 FILE *vclient_log_f;
 
@@ -20,7 +23,7 @@ void vclient_log_deinit_log(void)
     }
 }
 
-enum vclient_error_code_e vclient_log_init_log(void)
+enum vclient_error_code_e vclient_log_init_log(char const *vclient_type_str)
 {
     vclient_error_code_t err_code = VCLIENT_SUCCESS;
 
@@ -38,7 +41,12 @@ enum vclient_error_code_e vclient_log_init_log(void)
 
         strcpy(log_file_path, project_root_path);
         strcat(log_file_path, "/");
-        strcat(log_file_path, VCLIENT_LOG_FILE_PATH);
+        strcat(log_file_path, VCLIENT_LOG_FILE_DIRECTORY_PATH);
+        strcat(log_file_path, "/");
+        strcat(log_file_path, VCLIENT_LOG_FILE_NAME);
+        strcat(log_file_path, vclient_type_str);
+        strcat(log_file_path, ".");
+        strcat(log_file_path, VCLIENT_LOG_FILE_EXTENSION);
 
         vclient_log_f = fopen(log_file_path, "w");
         if (NULL == vclient_log_f)

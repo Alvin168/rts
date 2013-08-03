@@ -20,6 +20,11 @@ typedef enum vclient_error_code_e {
     VCLIENT_RECV_WRONG_DATA_FORMAT_ERROR
 } vclient_error_code_t;
 
+/* do not change numbers of types of clients */
+typedef enum vclients_types_e {
+    VCLIENT_b = 0x2,
+    VCLIENT_d = 0x3
+} vclients_types_t;
 
 #define VCLIENT_COMMON_ASSERT(condition) assert(condition)
 
