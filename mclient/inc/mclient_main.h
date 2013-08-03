@@ -9,12 +9,6 @@
 #define ROWS 7
 #define COLUMNS 7
 
-/* do not change numbers of types of clients */
-typedef enum mclients_types_e {
-    MCLIENT_A = 0x0,
-    MCLIENT_C = 0x1
-} mclients_types_t;
-
 typedef struct mtrx_fmt_s {
     int col_pos;
     int value;

@@ -19,6 +19,11 @@ typedef enum mclient_error_code_e {
     MCLIENT_RECV_WRONG_DATA_FORMAT_ERROR
 } mclient_error_code_t;
 
+/* do not change numbers of types of clients */
+typedef enum mclients_types_e {
+    MCLIENT_A = 0x0,
+    MCLIENT_C = 0x1
+} mclients_types_t;
 
 #define MCLIENT_COMMON_ASSERT(condition) assert(condition)
 

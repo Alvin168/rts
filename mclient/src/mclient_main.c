@@ -197,9 +197,18 @@ int main(int const argc, char const *argv[])
     char *mtrx_fp = NULL;
     size_t mtrx_fp_len;
     mclient_error_code_t err_code = MCLIENT_SUCCESS;
+    mclients_types_t mclient_type;
     int i;
 
-    err_code = mclient_log_init_log();
+    if (3 != argc)
+    {
+        err_code = MCLIENT_WRONG_NUMBER_CLI_PARAMS_ERROR;
+        goto error;
+    }
+
+    mclient_type = (mclients_types_t)atoi(argv[2]);
+
+    err_code = mclient_log_init_log(argv[2]);
     if (MCLIENT_SUCCESS != err_code)
     {
         goto error_log;
@@ -210,12 +219,6 @@ int main(int const argc, char const *argv[])
     for (i = 0; i < argc; i++)
     {
         MCLIENT_LOG_LOG("argv[%d] = %s\n", i, argv[i]);
-    }
-
-    if (3 != argc)
-    {
-        err_code = MCLIENT_WRONG_NUMBER_CLI_PARAMS_ERROR;
-        goto error;
     }
 
     mtrx_fp_len = strlen(argv[1]);
@@ -250,7 +253,7 @@ int main(int const argc, char const *argv[])
         MCLIENT_LOG_LOG("MClient has been successfully connected to remote GateWay server. SOCKET_FD = %d\n", socket_fd_remote);
 
         MCLIENT_LOG_LOG("Begin processing...\n");
-        err_code = begin_process(socket_fd_remote, (mclients_types_t)atoi(argv[2]));
+        err_code = begin_process(socket_fd_remote, mclient_type);
 
         mclient_socket_close_socket(socket_fd_remote);
         MCLIENT_LOG_LOG("Socket for remote connection with GateWay has just been closed. SOCKET_FD = %d\n", socket_fd_remote);

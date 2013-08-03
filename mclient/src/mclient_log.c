@@ -7,7 +7,10 @@
 
 #define LOGING_MCLIENT_LOG_FILE 1
 #define PROJECT_ROOT_PATH_ENV_VARIABLE "RTS_PROJ_ROOT"
-#define MCLIENT_LOG_FILE_PATH "log/mclient.log"
+
+#define MCLIENT_LOG_FILE_DIRECTORY_PATH "log"
+#define MCLIENT_LOG_FILE_NAME "mclient"
+#define MCLIENT_LOG_FILE_EXTENSION "log"
 
 FILE *mclient_log_f;
 
@@ -20,7 +23,7 @@ void mclient_log_deinit_log(void)
     }
 }
 
-enum mclient_error_code_e mclient_log_init_log(void)
+enum mclient_error_code_e mclient_log_init_log(char const *mclient_type_str)
 {
     mclient_error_code_t err_code = MCLIENT_SUCCESS;
 
@@ -38,7 +41,12 @@ enum mclient_error_code_e mclient_log_init_log(void)
 
         strcpy(log_file_path, project_root_path);
         strcat(log_file_path, "/");
-        strcat(log_file_path, MCLIENT_LOG_FILE_PATH);
+        strcat(log_file_path, MCLIENT_LOG_FILE_DIRECTORY_PATH);
+        strcat(log_file_path, "/");
+        strcat(log_file_path, MCLIENT_LOG_FILE_NAME);
+        strcat(log_file_path, mclient_type_str);
+        strcat(log_file_path, ".");
+        strcat(log_file_path, MCLIENT_LOG_FILE_EXTENSION);
 
         mclient_log_f = fopen(log_file_path, "w");
         if (NULL == mclient_log_f)
